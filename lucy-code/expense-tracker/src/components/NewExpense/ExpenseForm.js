@@ -18,6 +18,10 @@ const ExpenseForm = (props) => {
     setEnteredDate(event.target.value);
   };
 
+  const onChangeHandler = () => {
+    props.onSelectHandler();
+  };
+
   const submitHandler = (e) => {
     e.preventDefault();
 
@@ -32,6 +36,16 @@ const ExpenseForm = (props) => {
     setEnteredAmount('');
     setEnteredDate('');
   };
+
+  if (props.items.length === 0 || props.isExpenseEntryClosed) {
+    return (
+      <div className="new-expense__control">
+        <button type="submit" onClick={onChangeHandler}>
+          Add Expense
+        </button>
+      </div>
+    );
+  }
 
   return (
     <form onSubmit={submitHandler}>
@@ -66,6 +80,9 @@ const ExpenseForm = (props) => {
         </div>
       </div>
       <div className="new-expense__actions">
+        <button type="cancel" onClick={onChangeHandler}>
+          Cancel
+        </button>
         <button type="submit">Add Expense</button>
       </div>
     </form>

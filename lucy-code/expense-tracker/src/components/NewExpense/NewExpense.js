@@ -1,7 +1,14 @@
+import React, { useState } from 'react';
 import './NewExpense.css';
 import ExpenseForm from './ExpenseForm';
 
 const NewExpense = (props) => {
+  const [isExpenseEntryClosed, setIsExpenseEntryClosed] = useState(true);
+
+  const setIsExpenseEntryClosedHandler = () => {
+    setIsExpenseEntryClosed(!isExpenseEntryClosed);
+  };
+
   const saveExpenseDataHandler = (enteredExpenseData) => {
     const expenseData = {
       ...enteredExpenseData,
@@ -12,7 +19,12 @@ const NewExpense = (props) => {
 
   return (
     <div className="new-expense">
-      <ExpenseForm onSubmitExpenseData={saveExpenseDataHandler} />
+      <ExpenseForm
+        items={props.items}
+        onSubmitExpenseData={saveExpenseDataHandler}
+        onSelectHandler={setIsExpenseEntryClosedHandler}
+        isExpenseEntryClosed={isExpenseEntryClosed}
+      />
     </div>
   );
 };
