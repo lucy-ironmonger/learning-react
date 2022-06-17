@@ -3,11 +3,15 @@ import './NewExpense.css';
 import ExpenseForm from './ExpenseForm';
 
 const NewExpense = (props) => {
-  const [isExpenseEntryClosed, setIsExpenseEntryClosed] = useState(true);
+  const [isAddingExpense, setIsAddingExpense] = useState(true);
 
-  const setIsExpenseEntryClosedHandler = () => {
-    setIsExpenseEntryClosed(!isExpenseEntryClosed);
+  const startAddingHandler = () => {
+    setIsAddingExpense(true);
   };
+
+  const stopAddingHandler = () => {
+    setIsAddingExpense(false)
+  }
 
   const saveExpenseDataHandler = (enteredExpenseData) => {
     const expenseData = {
@@ -15,16 +19,23 @@ const NewExpense = (props) => {
       id: Math.random().toString()
     };
     props.onAddExpense(expenseData);
+    stopAddingHandler()
   };
 
   return (
     <div className="new-expense">
-      <ExpenseForm
-        items={props.items}
-        onSubmitExpenseData={saveExpenseDataHandler}
-        onSelectHandler={setIsExpenseEntryClosedHandler}
-        isExpenseEntryClosed={isExpenseEntryClosed}
-      />
+      {!isAddingExpense && (
+        <button type="button" onClick={startAddingHandler}>
+          Add new expense!
+        </button>
+      )}{' '}
+      {isAddingExpense && (
+        <ExpenseForm
+          items={props.items}
+          onCancel={stopAddingHandler}
+          onSubmit={saveExpenseDataHandler}
+        />
+      )}
     </div>
   );
 };
